@@ -14,9 +14,7 @@ class Setup
 
     public function registerStylesAndScripts()
     {
-        // Load scripts for the front end
-        add_filter('wp_enqueue_scripts', array( __CLASS__, 'enqueueStyles' ));
-        add_filter('wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts' ));
+        add_filter('template_redirect', array( __CLASS__, 'enqueueScripts' ));
         return $this;
     }
 
@@ -29,7 +27,7 @@ class Setup
     public function registerPluginTextDomain()
     {
         if( $path = self::getResourceDirectory('', 'languages') ) {
-            load_plugin_textdomain('my-plugin', false, $path);
+            load_plugin_textdomain('custom-status', false, $path);
         }
     }
 
@@ -62,7 +60,7 @@ class Setup
 
     public static function getResourceDirectory( $fileName, $subDirectory = 'css' )
     {
-        $filePath = plugin_dir_path(__FILE__) . "../resources/{$subDirectory}/{$fileName}";
+        $filePath = trailingslashit(plugin_dir_path(__FILE__)) . "../resources/{$subDirectory}/{$fileName}";
         if( file_exists($filePath) ) {
             return $filePath;
         }
@@ -72,7 +70,7 @@ class Setup
     public static function getResourceURL( $fileName, $subDirectory = 'css' )
     {
         if( self::getResourceDirectory($fileName, $subDirectory) !== false ) {
-            return plugin_dir_url(__FILE__) . "../resources/{$subDirectory}/{$fileName}";
+            return trailingslashit(plugin_dir_url(__FILE__)) . "../resources/{$subDirectory}/{$fileName}";
         }
 
         return false;

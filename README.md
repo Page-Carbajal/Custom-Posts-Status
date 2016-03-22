@@ -22,4 +22,5 @@ Well, it is quite simple.
 
 ###Version 1.0.0 - Our First Custom Post Status
 
+- Added language files, style and script files
 - Added basic files
