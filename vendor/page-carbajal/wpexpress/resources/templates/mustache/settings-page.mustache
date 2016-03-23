@@ -1,0 +1,19 @@
+<div class="wrapper">
+    <h1>{{pageTitle}}</h1>
+    <p>{{description}}</p>
+
+    <form method="post">
+        {{# fields}}
+            <p>
+                {{#properties.label}}
+                    <label for="{{properties.id}}">{{properties.label}}</label> <br />
+                {{/properties.label}}
+                {{{ html }}}
+            </p>
+        {{/fields}}
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </form>
+
+</div>

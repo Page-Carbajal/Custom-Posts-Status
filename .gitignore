@@ -1,2 +1,5 @@
 .idea
 composer.lock
+vendor/mustache/mustache/test
+vendor/twig/twig/doc
+vendor/twig/twig/test

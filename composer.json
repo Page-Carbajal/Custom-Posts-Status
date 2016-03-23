@@ -9,7 +9,9 @@
             "email": "awesome@pagecarbajal.com"
         }
     ],
-    "require": {},
+    "require": {
+        "page-carbajal/wpexpress": "^1.2"
+    },
     "autoload": {
         "psr-4":{
             "CustomPostStatus\\": "source/"

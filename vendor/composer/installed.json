@@ -1,1 +1,228 @@
-[]
+[
+    {
+        "name": "page-carbajal/wpexpress-query",
+        "version": "0.10.4",
+        "version_normalized": "0.10.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Page-Carbajal/WPExpress-Query.git",
+            "reference": "f81c2d435994324dc3a4d295da40b5d790711930"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Page-Carbajal/WPExpress-Query/zipball/f81c2d435994324dc3a4d295da40b5d790711930",
+            "reference": "f81c2d435994324dc3a4d295da40b5d790711930",
+            "shasum": ""
+        },
+        "time": "2016-02-10 17:05:55",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "WPExpress\\": "source/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GNU-3.0"
+        ],
+        "authors": [
+            {
+                "name": "Page Carbajal",
+                "email": "awesome@pagecarbajal.com"
+            }
+        ],
+        "description": "A WPDB abstraction",
+        "homepage": "https://github.com/Page-Carbajal/WPExpress"
+    },
+    {
+        "name": "mustache/mustache",
+        "version": "v2.10.0",
+        "version_normalized": "2.10.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/bobthecow/mustache.php.git",
+            "reference": "0bb2f76e2f34a8864a32be34c4ec66274d76c05e"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/bobthecow/mustache.php/zipball/0bb2f76e2f34a8864a32be34c4ec66274d76c05e",
+            "reference": "0bb2f76e2f34a8864a32be34c4ec66274d76c05e",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2.4"
+        },
+        "require-dev": {
+            "fabpot/php-cs-fixer": "~1.6",
+            "phpunit/phpunit": "~3.7|~4.0|~5.0"
+        },
+        "time": "2016-02-27 19:22:46",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Mustache": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Justin Hileman",
+                "email": "justin@justinhileman.info",
+                "homepage": "http://justinhileman.com"
+            }
+        ],
+        "description": "A Mustache implementation in PHP.",
+        "homepage": "https://github.com/bobthecow/mustache.php",
+        "keywords": [
+            "mustache",
+            "templating"
+        ]
+    },
+    {
+        "name": "twig/twig",
+        "version": "v1.24.0",
+        "version_normalized": "1.24.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/twigphp/Twig.git",
+            "reference": "3e5aa30ebfbafd5951fb1b01e338e1800ce7e0e8"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/twigphp/Twig/zipball/3e5aa30ebfbafd5951fb1b01e338e1800ce7e0e8",
+            "reference": "3e5aa30ebfbafd5951fb1b01e338e1800ce7e0e8",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2.7"
+        },
+        "require-dev": {
+            "symfony/debug": "~2.7",
+            "symfony/phpunit-bridge": "~2.7"
+        },
+        "time": "2016-01-25 21:22:18",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.24-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Twig_": "lib/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com",
+                "homepage": "http://fabien.potencier.org",
+                "role": "Lead Developer"
+            },
+            {
+                "name": "Armin Ronacher",
+                "email": "armin.ronacher@active-4.com",
+                "role": "Project Founder"
+            },
+            {
+                "name": "Twig Team",
+                "homepage": "http://twig.sensiolabs.org/contributors",
+                "role": "Contributors"
+            }
+        ],
+        "description": "Twig, the flexible, fast, and secure template language for PHP",
+        "homepage": "http://twig.sensiolabs.org",
+        "keywords": [
+            "templating"
+        ]
+    },
+    {
+        "name": "page-carbajal/wpexpress-ui",
+        "version": "1.0.3",
+        "version_normalized": "1.0.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Page-Carbajal/WPExpress-UI.git",
+            "reference": "37ad1fcda518237cc8391570eb4ac387598bc42a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Page-Carbajal/WPExpress-UI/zipball/37ad1fcda518237cc8391570eb4ac387598bc42a",
+            "reference": "37ad1fcda518237cc8391570eb4ac387598bc42a",
+            "shasum": ""
+        },
+        "require": {
+            "mustache/mustache": "^2.9",
+            "twig/twig": "^1.23"
+        },
+        "time": "2016-03-10 22:04:05",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "WPExpress\\": "source/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL3"
+        ],
+        "authors": [
+            {
+                "name": "Page Carbajal",
+                "email": "awesome@pagecarbajal.com"
+            }
+        ],
+        "description": "HTML Helper and Render Engine for WPExpress."
+    },
+    {
+        "name": "page-carbajal/wpexpress",
+        "version": "1.2.5",
+        "version_normalized": "1.2.5.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Page-Carbajal/WPExpress.git",
+            "reference": "2d31896285ce42d0c424700ab3db44b2a70f6ad5"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Page-Carbajal/WPExpress/zipball/2d31896285ce42d0c424700ab3db44b2a70f6ad5",
+            "reference": "2d31896285ce42d0c424700ab3db44b2a70f6ad5",
+            "shasum": ""
+        },
+        "require": {
+            "page-carbajal/wpexpress-query": "^0.10.4",
+            "page-carbajal/wpexpress-ui": "^1.0.3",
+            "php": ">=5.5"
+        },
+        "time": "2016-03-10 22:05:47",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "WPExpress\\": "source/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GNU-3.0"
+        ],
+        "authors": [
+            {
+                "name": "Page Carbajal",
+                "homepage": "http://pagecarbajal.com"
+            }
+        ],
+        "homepage": "https://github.com/Page-Carbajal/WPExpress"
+    }
+]
