@@ -1,21 +1,27 @@
 #Custom Post Status for WordPress
 
+##Once upon a time
+
 Once upon a time in a website far far away, there was a content administrator who wanted to be able to set different post status for his content.
 
-Sadly, his WordPress installation only provided a function called **register_post_status** to register the status, but it did not work. 
+While his WordPress installation provided a function called **register_post_status** to help him with this task, the **meta-boxes** function **post_submit_meta_box** was not in a very cooperative mood.  
 
-So instead of being sadden by this fact, the content administrator asked a bold [software engineer](http://pagecarbajal.com) to fight for a just cause and give him the ability to set his own status.
+So instead of being sadden by this fact, the content administrator asked a bold [software engineer](http://pagecarbajal.com) to help him fight for a just cause and give him the ability to set his own status list while keeping the peace in the kingdom.
  
-This is the story of that journey. The journey that will conquer the **Custom Post Status** for WordPress.
+This is the story of that journey. An adventure to conquer **Custom Post Status** for justice and peace.
+
+##Fairy tale aside!
+
+This project helps you implement your own Custom Status in the **Post Submit Box**.
+
+To do this without disrupting the core and to make it easy to replace in the future, I decided to implement the path of least resistance.
+
+###This is how it works
  
-
-##How does it work?
-
-Well, it is quite simple. 
-
-1. You set up the status you want in a Settings page
-2. We register them with WordPress 
-3. A sneaky JS function updates the **post submit metabox**
+1. Create a Comma Separated Value list in the **Custom Status Settings** page
+2. Every valid element will be the registered as a status using the function **register_post_status** 
+3. Then, a sneaky JS function updates the **post submit metabox** to list all the status
+4. Stick a fork in it, because it's done!
 
 
 ##Change Log
