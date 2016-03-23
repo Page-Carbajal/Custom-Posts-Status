@@ -4,11 +4,17 @@
 namespace CustomPostStatus;
 
 
+use CustomPostStatus\Admin\SettingsPage;
+
+
 class Setup
 {
 
     public function __construct()
     {
+        // Settings Page
+        new SettingsPage();
+        // Register Filters
         $this->registerFilters();
     }
 
@@ -25,15 +31,23 @@ class Setup
 
     public function registerCustomStatus()
     {
+        
+        $options = new SettingsPage();
+        $customStatusList = $options->getOptionValue('custom-status-list');
+        $list = explode(',', $customStatusList);
 
-        register_post_status('ready-to-publish', array(
-            'label'                     => _x('Ready to Publish', 'post'),
-            'public'                    => true,
-            'exclude_from_search'       => false,
-            'show_in_admin_all_list'    => true,
-            'show_in_admin_status_list' => true,
-            'label_count'               => _n_noop('Ready to Publish <span class="count">(%s)</span>', 'Ready to Publish <span class="count">(%s)</span>'),
-        ));
+        foreach($list as $status){
+            $sanitizedStatus = sanitize_title($status);
+            register_post_status($sanitizedStatus, array(
+                'label'                     => _x($status, 'post'),
+                'public'                    => true,
+                'exclude_from_search'       => true,
+                'show_in_admin_all_list'    => true,
+                'show_in_admin_status_list' => true,
+                'label_count'               => "{$status} <span class=\"count\">(%s)</span>",
+            ));
+
+        }
 
     }
 

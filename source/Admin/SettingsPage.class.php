@@ -20,8 +20,11 @@ class SettingsPage extends BaseSettingsPage
     {
         $value = $this->getOptionValue('custom-status-list');
 
+        $atts = array( 'cols' => 40, 'rows' => 10, 'placeholder' => __('Use comma separated values', 'custom-status') );
+
         $this->fields->addTextArea('custom-status-list')
             ->setValue($value)
+            ->setAttributes($atts)
             ->addLabel(__('Custom Status List', 'custom-status'));
     }
 }

@@ -22,6 +22,9 @@ Well, it is quite simple.
 
 ###Version 1.0.0 - Our First Custom Post Status
 
+- Enhanced JS to set the current post status 
+- Implemented Custom Status List
+- Implemented Settings Page
 - Added dependencies to the repository
 - Added settings page
 - Finished Javascript implementation
