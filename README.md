@@ -1,4 +1,4 @@
-#Custom Post Status for WordPress
+#Custom Post Status
 
 ##Once upon a time
 
@@ -23,6 +23,15 @@ To do this without disrupting the core and to make it easy to replace in the fut
 3. Then, a sneaky JS function updates the **post submit metabox** to list all the status
 4. Stick a fork in it, because it's done!
 
+##Requirements
+
+1. PHP 5.3 or higher
+
+##About
+
+This is an open source project under the GPL license commissioned by **Octopus** [Marketing Digital](http://octopus.mx) in sunny Cancun, Mexico. 
+
+This project is coded and maintained by **Page Carbajal**, a [Software Engineer](http://pagecarbajal.com) who loves **WordPress** very dearly and is the father figure of **WPExpress**, A [WordPress Framework for Developers](http://pagecarbajal.com//wordpress-framework)
 
 ##Change Log
 
