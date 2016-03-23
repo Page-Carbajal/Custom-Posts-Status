@@ -22,5 +22,7 @@ Well, it is quite simple.
 
 ###Version 1.0.0 - Our First Custom Post Status
 
+- Added basic methods to customize JS
+- Configured the plugin to work only for posts and only on edit and add screens
 - Added language files, style and script files
 - Added basic files

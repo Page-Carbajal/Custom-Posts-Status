@@ -1,3 +1,6 @@
-/**
- * Created by jebediahpage on 10/13/15.
- */
+jQuery(document).ready(
+    function(){
+        var postStatus = jQuery('#post_status');
+        console.log('Custom Status List: ',  customPostStatusList);
+    }
+);

@@ -9,19 +9,32 @@ class Setup
 
     public function __construct()
     {
-        $this->registerStylesAndScripts()->registerTextDomain();
+        $this->registerFilters();
     }
 
-    public function registerStylesAndScripts()
+    public function registerFilters()
     {
-        add_filter('template_redirect', array( __CLASS__, 'enqueueScripts' ));
+        // Scripts and Styles
+        add_filter('admin_enqueue_scripts', array( __CLASS__, 'enqueueScriptsAndStyles' ));
+        // TextDomain
+        add_filter('init', array( $this, 'registerPluginTextDomain' ));
+        // Register Custom Status
+        add_filter('init', array( $this, 'registerCustomStatus' ));
         return $this;
     }
 
-    public function registerTextDomain()
+    public function registerCustomStatus()
     {
-        add_filter('plugins_loaded', array( $this, 'registerPluginTextDomain' ));
-        return $this;
+
+        register_post_status('ready-to-publish', array(
+            'label'                     => _x('Ready to Publish', 'post'),
+            'public'                    => true,
+            'exclude_from_search'       => false,
+            'show_in_admin_all_list'    => true,
+            'show_in_admin_status_list' => true,
+            'label_count'               => _n_noop('Ready to Publish <span class="count">(%s)</span>', 'Ready to Publish <span class="count">(%s)</span>'),
+        ));
+
     }
 
     public function registerPluginTextDomain()
@@ -32,30 +45,47 @@ class Setup
     }
 
     // Static methods
-    public static function enqueueStyles()
+
+    public static function enqueueScriptsAndStyles()
     {
-        if( is_admin() ) {
-            if( $stylePath = self::getResourceURL('admin-styles.css', 'css') ) {
-                wp_enqueue_style('your-plugin-name-admin-styles', $stylePath);
+        $screen = get_current_screen();
+        if( is_admin() && isset( $screen->post_type ) && 'post' == $screen->post_type ) {
+
+            // Load only for Add Post and Edit Post screens
+            if( 'post' == $screen->post_type && ( ( isset( $screen->action ) && $screen->action == 'add' ) || ( isset( $screen->base ) && 'post' == $screen->base && empty( $screen->action ) ) ) ) {
+
+                if( $scriptPath = self::getResourceURL('custom-status-script.js', 'javascript') ) {
+                    wp_enqueue_script('custom-status-script', $scriptPath, array( 'jquery' ), false, true);
+                    wp_localize_script('custom-status-script', 'customPostStatusList', self::getCustomPostStatus());
+                }
+
             }
         }
 
-        if( $stylePath = self::getResourceURL('front-end.css', 'css') ) {
-            wp_enqueue_style('your-plugin-name-front-end-styles', $stylePath);
-        }
     }
 
-    public static function enqueueScripts()
+    private static function getCustomPostStatus()
     {
-        if( is_admin() ) {
-            if( $scriptPath = self::getResourceURL('admin-script.js', 'javascript') ) {
-                wp_enqueue_script('your-plugin-name-admin-script', $scriptPath, array( 'jquery' ));
+        global $post, $wp_post_statuses;
+
+        $exceptions = array( 'inherit', 'trash', 'auto-draft' );
+
+        $currentStatus = false;
+        if( isset( $post->post_status ) ) {
+            $currentStatus = ( 'auto-draft' == $post->post_status ? 'draft' : $post->post_status );
+        }
+
+        $list = array();
+
+        foreach( $wp_post_statuses as $value => $status ) {
+            if( !in_array($value, $exceptions) ) {
+                $list[] = array( 'text'     => $status->label,
+                                 'value'    => $value,
+                                 'selected' => ( $value == $currentStatus ) );
             }
         }
 
-        if( $scriptPath = self::getResourceURL('front-end.js', 'javascript') ) {
-            wp_enqueue_script('your-plugin-name-front-end-script', $scriptPath, array( 'jquery' ));
-        }
+        return $list;
     }
 
     public static function getResourceDirectory( $fileName, $subDirectory = 'css' )
