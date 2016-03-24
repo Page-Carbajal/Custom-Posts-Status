@@ -3,7 +3,7 @@
  * Plugin name: Custom Post Status for WordPress
  * Plugin URI: https://github.com/octopus-digital-strategy/Custom-Posts-Status
  * Description: Register Custom Post Status. 
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: Page-Carbajal
  * Author URI: http://pagecarbajal.com
  */
