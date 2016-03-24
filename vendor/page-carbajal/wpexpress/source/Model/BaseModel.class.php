@@ -5,6 +5,9 @@ namespace WPExpress\Model;
 
 
 use WPExpress\Query;
+use WPExpress\UI\RenderEngine;
+use WPExpress\UI\FieldCollection;
+use WPExpress\Collections\MetaBoxCollection;
 
 
 abstract class BaseModel
@@ -26,10 +29,6 @@ abstract class BaseModel
     protected $thumbnailSupport    = true;
     protected $postTypeDescription = '';
 
-    protected $fields;
-
-    protected $fieldPrefix;
-
     protected $isPublic;
     protected $name;
     protected $postTypeSlug;
@@ -39,6 +38,11 @@ abstract class BaseModel
     protected $singularNameLabel;
     // Custom Post Type Declarations
     protected $menuPosition;
+    // MetaBoxes and Fields
+    protected $metaBoxes;
+    protected $fields;
+    private   $fieldsMetaID = "__wex_fields";
+    protected $templatePath;
 
     // Original Post Object
     protected $post;
@@ -64,7 +68,6 @@ abstract class BaseModel
             $this->title   = $post->post_title;
             $this->content = $post->post_content;
             $this->excerpt = $post->post_excerpt;
-            // TODO: Load fields
         }
 
         // Setup Basic post data
@@ -74,7 +77,12 @@ abstract class BaseModel
             $this->singularNameLabel = $this->nameLabel;
         }
 
-        $this->registerCustomPostType();
+        //Metaboxes and Fields
+        $this->metaBoxes = new MetaBoxCollection();
+        $this->fields    = new FieldCollection();
+
+
+        $this->registerCustomPostType()->registerFilters();
     }
 
     public function getPostType()
@@ -96,9 +104,23 @@ abstract class BaseModel
         return $labels;
     }
 
-    protected function setPostTypeLabels()
+    protected function setPostTypeLabels( $customLabels )
     {
-        // TODO: Add all the labels here
+        $labels = $this->getPostTypeLabels();
+
+        $labels                  = shortcode_atts($labels, $customLabels);
+        $this->nameLabel         = $labels['name'];
+        $this->singularNameLabel = $labels['singular_name'];
+    }
+
+    protected function setNameLabel( $name )
+    {
+        $this->nameLabel = $name;
+    }
+
+    protected function setSingularNameLabel( $singularName )
+    {
+        $this->singularNameLabel = $singularName;
     }
 
     protected function setSupportedFeatures( $supportTitle = true, $supportEditor = true, $supportThumbnail = false )
@@ -158,73 +180,181 @@ abstract class BaseModel
         return $this;
     }
 
-    private function loadCustomFields()
+    protected function registerFilters()
     {
-        if( empty( $this->fields ) ) {
-            $this->fields = get_post_meta($this->ID);
-        }
+        // TODO: Create Abstract Class WordPressFilters. Invoke it's init method here
+        // Set Fields Values
+        // Render Metaboxes and Fields
+        add_action('admin_init', array( $this, 'registerMetaBoxes' ));
+        //        add_action('admin_head', array( $this, '' )); // Set with a script instead
+        // Save Post MetaData
+        add_action('save_post', array( &$this, 'saveFieldValues' ), 10, 2);
+        // Register Scripts
+        add_action('admin_enqueue_scripts', array( __CLASS__, 'registerScriptsAndStyles' ));
+
+        // OTHER AVAILABLE HOOKS
+        // Attachment Hooks
+        // TODO: Consider implementation
+        //        add_action( 'add_attachment', array( $this, '' ) );
+        //        add_action( 'edit_attachment', array( $this, '' ) );
+        // User Hooks. TODO: Implement in BaseUser
+        //        add_action( 'admin_head', array( $this, '' ) );
+        //        add_action( 'show_user_profile', array( $this, '' ), $this->metaBoxes->getPriority() );
+        //        add_action( 'edit_user_profile', array( $this, '' ), $this->metaBoxes->getPriority() );
+        //        add_action( 'personal_options_update', array( $this, '' ) );
+        //        add_action( 'edit_user_profile_update', array( $this, '' ) );
+
         return $this;
     }
 
-    // Field Methods
-    public function getField( $fieldName, $returnAsArray = false )
+    public function registerMetaBoxes()
     {
-        if( empty( $this->fields ) ) {
-            $this->fields = array();
-        }
-        if( !array_key_exists($fieldName, $this->fields) ) {
-            $value = get_post_meta($this->ID, $fieldName);
-            if( !empty( $value ) ) {
-                $this->fields[$fieldName] = $value;
+        if( is_admin() ) {
+            $me = new static();
+
+            // If the type has not meta boxes create one by default
+            if( count($me->metaBoxes) == 0 && count($me->fields) > 0 ) {
+                $me->metaBoxes = new MetaBoxCollection();
+                $me->metaBoxes->add("Properties for {$me->title}");
+            }
+
+            foreach( $me->metaBoxes->toArray() as $ID => $box ) {
+                $arguments = array(
+                    'currentMetaBox' => $ID,
+                );
+                add_meta_box($box->ID, $box->title, array( $this, 'renderFields' ), $me->getPostType(), $box->context, $box->priority, $arguments);
             }
         }
-
-        if( !empty( $this->fields[$fieldName] ) ) {
-            if( $returnAsArray ) {
-                return $this->fields[$fieldName];
-            } else {
-                return reset($this->fields[$fieldName]);
-            }
-        }
-
-        return false;
     }
 
-    // Magic Methods
+    public function setTemplatePath( $templatePath )
+    {
+        if( file_exists($templatePath) ) {
+            $this->templatePath = $templatePath;
+        }
+
+        return $this;
+    }
+
+    private function getMetaBoxContext( $instance, $fields )
+    {
+        $boxID    = isset( $params['args']['currentMetaBox'] ) ? $params['args']['currentMetaBox'] : 'default';
+        $postType = $instance->getPostType();
+
+        $context = array(
+            'hasFields'        => count($fields) > 0,
+            'fields'           => $fields,
+            'saveChangesLabel' => 'Save Changes',
+        );
+
+        return apply_filters("metabox_context_{$boxID}_at_{$postType}", $context);
+    }
+
+    public function renderFields( $post, $params )
+    {
+        $me = new static($post);
+
+        // Auto Load Field Values
+        $me->loadFieldValues();
+
+        $templatePath = empty( $me->templatePath ) ? untrailingslashit(dirname(__FILE__)) . "/../../resources/templates" : $me->templatePath;
+        $engine       = new RenderEngine($templatePath);
+        $boxID        = $params['args']['currentMetaBox'];
+        $fields       = $me->fields->parseFields($me->metaBoxes->box($boxID)->getFields());
+
+        echo $engine->renderTemplate('metabox-content', $this->getMetaBoxContext($me, $fields));
+    }
+
+    public static function registerScriptsAndStyles()
+    {
+        $baseDir = untrailingslashit(dirname(__FILE__));
+
+        $style  = "{$baseDir}/../../resources/css/metabox.css";
+        $script = "{$baseDir}/../../resources/js/metabox-validation.js";
+
+        if( file_exists($style) ) {
+            // wp_enqueue_style('wpexpress-metabox-style', $style);
+            // Can't really enqueue a thing since this is not a plugin not a theme.
+            // Therefore we will rely in this case to something rather unappealing
+            add_action('admin_head', function () use ( $style ) {
+                $rawCSS = file_get_contents($style);
+                echo "<style type=\"text/css\">{$rawCSS}</style>";
+            });
+        }
+
+        if( file_exists($script) ) {
+            add_action('admin_footer', function () use ( $script ) {
+                $rawJS = file_get_contents($script);
+                echo "<script type=\"text/javascript\">{$rawJS}</script>";
+            });
+        }
+    }
+
+    /****Custom Field Methods****/
+
+    public function fields( $name )
+    {
+        if( $this->fields instanceof FieldCollection ) {
+            $this->fields->field($name); //Sets active field
+        }
+        return $this->fields; // Is a direct access to the property
+    }
+
+    // Load on constructor
+    protected function loadFieldValues()
+    {
+        $meta = get_post_meta($this->ID, $this->fieldsMetaID, true);
+
+        if( is_array($meta) ) {
+            foreach( $this->fields->toArray() as $name => $field ) {
+                $fieldName = sanitize_title($name);
+                if( isset( $meta[$fieldName] ) ) {
+                    $this->fields($name)->setValue($meta[$fieldName]);
+                }
+            }
+        }
+
+        return $this;
+    }
+
+    public function saveFieldValues( $postID, $post = false )
+    {
+        $screen = get_current_screen();
+        if( $screen->post_type == $this->getPostType() ) {
+            $meta = array();
+            //$instance = new static($post);
+
+            foreach( $this->fields->toArray() as $title => $field ) {
+                $fieldID        = sanitize_title($title);
+                $meta[$fieldID] = ( isset( $_POST ) && isset( $_POST[$fieldID] ) ) ? $_POST[$fieldID] : $this->fields($fieldID)->getValue();
+            }
+
+            update_post_meta($postID, $this->fieldsMetaID, $meta);
+        }
+
+        return $this;
+    }
+
+
+    /****Magic Methods****/
     public function __get( $property )
     {
-
-        // Searches property within the class and within the meta_fields
-        if( !empty( $this->fields ) && array_key_exists($property, $this->fields) ) {
-            return reset($this->fields[$property]);
-        }
         if( property_exists($this, $property) ) {
             return $this->$property;
         }
-        // TODO: Implement overridable data as follows. Instead of property_exists method
-        //        if( array_key_exists( $property, $this->data ) ){
-        //            return $this->data[$property];
-        //        }
+
         return false;
     }
 
     public function __set( $property, $value )
     {
         if( property_exists($this, $property) ) {
-            return $this->$property = $value;
+            $this->$property = $value;
         }
-
-        // TODO: Same as with the get Method
-        //        $this->data[$property] = $value;
-    }
-
-    protected function addCustomField()
-    {
-
     }
 
 
-    /****** Helper Methods ***********/
+    /**** Helper Methods ****/
     public function getPermalink()
     {
         return get_permalink($this->ID);
@@ -252,9 +382,63 @@ abstract class BaseModel
         return false;
     }
 
+    /****CRUD Methods****/
+    public function create( $title = null, $content = null )
+    {
+        $post = wp_insert_post(array(
+            'post_type'    => $this->postType,
+            'post_title'   => $title,
+            'post_content' => $content,
+            'post_status'  => 'draft',
+        ));
+
+        return new static($post);
+    }
+
+    public function save()
+    {
+        $properties = array(
+            'ID'           => $this->ID,
+            'post_title'   => $this->title,
+            'post_content' => $this->content,
+            'post_excerpt' => $this->excerpt,
+        );
+
+        return wp_update_post($properties);
+    }
+
+    public static function delete( $ID = null )
+    {
+        return wp_delete_post($ID);
+    }
+
+    public function publish()
+    {
+        $this->setStatus('publish');
+    }
+
+    public function setStatus( $status )
+    {
+        $options = array( 'draft',
+                          'future',
+                          'pending',
+                          'private',
+                          'publish',
+                          'trash',
+        );
+        if( in_array($status, $options) ) {
+            wp_update_post(array( 'id' => $this->ID, 'post_status' => $status ));
+        }
+        return $this;
+    }
 
     /****** Static Methods **********/
     // Traversing Methods
+
+    public function getByID( $ID )
+    {
+        return new static($ID);
+    }
 
     public static function getAll()
     {

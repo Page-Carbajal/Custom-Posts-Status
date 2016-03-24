@@ -35,6 +35,10 @@ This project is coded and maintained by **Page Carbajal**, a [Software Engineer]
 
 ##Change Log
 
+###Version 1.0.1 - WPExpress upgrade
+
+- Upgraded to WPExpress 1.3.0
+
 ###Version 1.0.0 - Our First Custom Post Status
 
 - Enhanced JS to set the current post status 

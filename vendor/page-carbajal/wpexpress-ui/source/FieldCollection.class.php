@@ -22,8 +22,8 @@ class FieldCollection implements \ArrayAccess, \Countable
     {
         $field = new \stdClass();
 
-        $field->ID         = strtolower($name);
-        $field->name       = strtolower($name);
+        $field->ID         = sanitize_title($name); // TODO: Implement a port of sanitize title
+        $field->name       = sanitize_title($name);
         $field->type       = $type;
         $field->value      = '';
         $field->attributes = array();
@@ -88,18 +88,42 @@ class FieldCollection implements \ArrayAccess, \Countable
         return $this;
     }
 
+    public function getID()
+    {
+        if( false !== $this->selectedFieldName ) {
+            $this->container[$this->selectedFieldName]->ID;
+        }
+        return false;
+    }
+
     public function setID( $ID )
     {
         if( $this->selectedFieldName !== false ) {
-            $this->container[$this->selectedFieldName]->ID = $ID;
+            return $this->container[$this->selectedFieldName]->ID = $ID;
         }
         return $this;
+    }
+
+    public function getAttribute( $att )
+    {
+        if( false !== $this->selectedFieldName && isset( $this->container[$this->selectedFieldName]->attributes[$att] ) ) {
+            return $this->container[$this->selectedFieldName]->attributes[$att];
+        }
+        return false;
     }
 
     public function setAttribute( $att, $value )
     {
         if( $this->selectedFieldName !== false ) {
             $this->container[$this->selectedFieldName]->attributes[$att] = $value;
+        }
+        return $this;
+    }
+
+    public function getAttributes()
+    {
+        if( $this->selectedFieldName !== false ) {
+            return $this->container[$this->selectedFieldName]->attributes;
         }
         return $this;
     }
@@ -112,12 +136,25 @@ class FieldCollection implements \ArrayAccess, \Countable
         return $this;
     }
 
+    public function getProperty( $property )
+    {
+        if( false !== $this->selectedFieldName && isset( $this->container[$this->selectedFieldName]->properties[$property] ) ) {
+            return $this->container[$this->selectedFieldName]->properties[$property];
+        }
+        return false;
+    }
+
     private function setProperty( $property, $value )
     {
         if( $this->selectedFieldName !== false ) {
             $this->container[$this->selectedFieldName]->properties[$property] = $value;
         }
         return $this;
+    }
+
+    public function getLabel()
+    {
+        return $this->getProperty('label');
     }
 
     //Labels and related data
@@ -143,9 +180,19 @@ class FieldCollection implements \ArrayAccess, \Countable
 
 
     /****Parse HTML****/
-    public function parseFields()
+    public function parseFields( $subset = null )
     {
-        $parser = new HTMLFieldParser($this->container);
+        $fields = $this->container;
+        if( is_array($subset) && count($subset) > 0 ) {
+            $keys = array_keys($fields);
+            $fields = array();
+            foreach( $subset as $index ) {
+                if( in_array($index, $keys) && isset($this->container[$index]) ) {
+                    $fields[$index] = $this->container[$index];
+                }
+            }
+        }
+        $parser = new HTMLFieldParser($fields);
         return $parser->parseFields();
     }
 

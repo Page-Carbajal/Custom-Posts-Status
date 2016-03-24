@@ -8,7 +8,7 @@ HTML Builder and Render Engine for WPExpress.
 
 ###TO DO
 
-
+- Improve Documentation
 - Create Formatting class a port of WordPress functions to sanitize titles and file names
 - Custom Fields
     - Create FieldsCollection/registerCustomField($fieldName, CustomField $callback) method
@@ -18,6 +18,12 @@ HTML Builder and Render Engine for WPExpress.
         - Samples
             - http://omarello.com/2010/08/grails-custom-tags-diy/
             - http://twig.sensiolabs.org/doc/advanced.html
+
+###Version 1.0.4 - FieldCollection and HTMLParser
+
+- Implemented subset for HTMLParser/parseFields
+- Added sanitize_title to ID and Name properties on FieldCollection
+- Added extra getters and setters for FieldCollection
 
 
 ###Version 1.0.3 - Input fields bug fix

@@ -228,6 +228,8 @@ return array(
     'WPExpress\\API\\BaseAPI' => $vendorDir . '/page-carbajal/wpexpress/source/API/BaseAPI.class.php',
     'WPExpress\\Admin\\BaseMetaBox' => $vendorDir . '/page-carbajal/wpexpress/source/Admin/BaseMetaBox.class.php',
     'WPExpress\\Admin\\BaseSettingsPage' => $vendorDir . '/page-carbajal/wpexpress/source/Admin/BaseSettingsPage.class.php',
+    'WPExpress\\Collections\\MetaBoxCollection' => $vendorDir . '/page-carbajal/wpexpress/source/Collections/MetaBoxCollection.class.php',
+    'WPExpress\\Contracts\\BaseWordPressFilters' => $vendorDir . '/page-carbajal/wpexpress/source/Contracts/BaseWordPressFilters.class.php',
     'WPExpress\\Database\\Taxonomy' => $vendorDir . '/page-carbajal/wpexpress-query/source/Database/Taxonomy.class.php',
     'WPExpress\\Database\\Transient' => $vendorDir . '/page-carbajal/wpexpress-query/source/Database/Transient.class.php',
     'WPExpress\\Database\\User' => $vendorDir . '/page-carbajal/wpexpress-query/source/Database/User.class.php',

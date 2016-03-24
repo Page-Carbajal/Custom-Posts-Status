@@ -148,24 +148,24 @@
     },
     {
         "name": "page-carbajal/wpexpress-ui",
-        "version": "1.0.3",
-        "version_normalized": "1.0.3.0",
+        "version": "1.0.4",
+        "version_normalized": "1.0.4.0",
         "source": {
             "type": "git",
             "url": "https://github.com/Page-Carbajal/WPExpress-UI.git",
-            "reference": "37ad1fcda518237cc8391570eb4ac387598bc42a"
+            "reference": "e9dba522f800e20b7a517b14e2328523304d4ac7"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/Page-Carbajal/WPExpress-UI/zipball/37ad1fcda518237cc8391570eb4ac387598bc42a",
-            "reference": "37ad1fcda518237cc8391570eb4ac387598bc42a",
+            "url": "https://api.github.com/repos/Page-Carbajal/WPExpress-UI/zipball/e9dba522f800e20b7a517b14e2328523304d4ac7",
+            "reference": "e9dba522f800e20b7a517b14e2328523304d4ac7",
             "shasum": ""
         },
         "require": {
             "mustache/mustache": "^2.9",
             "twig/twig": "^1.23"
         },
-        "time": "2016-03-10 22:04:05",
+        "time": "2016-03-24 01:10:10",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -187,17 +187,17 @@
     },
     {
         "name": "page-carbajal/wpexpress",
-        "version": "1.2.5",
-        "version_normalized": "1.2.5.0",
+        "version": "1.3.0",
+        "version_normalized": "1.3.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/Page-Carbajal/WPExpress.git",
-            "reference": "2d31896285ce42d0c424700ab3db44b2a70f6ad5"
+            "reference": "c614cbae00757eb2551cfc88e0b16dad310e9900"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/Page-Carbajal/WPExpress/zipball/2d31896285ce42d0c424700ab3db44b2a70f6ad5",
-            "reference": "2d31896285ce42d0c424700ab3db44b2a70f6ad5",
+            "url": "https://api.github.com/repos/Page-Carbajal/WPExpress/zipball/c614cbae00757eb2551cfc88e0b16dad310e9900",
+            "reference": "c614cbae00757eb2551cfc88e0b16dad310e9900",
             "shasum": ""
         },
         "require": {
@@ -205,7 +205,7 @@
             "page-carbajal/wpexpress-ui": "^1.0.3",
             "php": ">=5.5"
         },
-        "time": "2016-03-10 22:05:47",
+        "time": "2016-03-24 00:58:31",
         "type": "library",
         "installation-source": "dist",
         "autoload": {

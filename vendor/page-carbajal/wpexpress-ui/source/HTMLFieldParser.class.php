@@ -45,16 +45,16 @@ class HTMLFieldParser
     private static function renderInputField( $name, $type, $attributes, $fieldProperties, $ID )
     {
         $controlID       = empty( $ID ) ? $name : $ID;
-        $baseAttributes  = array( 'type' => $type, 'id' => $controlID, 'name' => $name );
+        $baseAttributes  = array( 'type' => $type, 'ID' => $controlID, 'name' => $name );
         $fieldProperties = empty( $fieldProperties ) ? array() : ( is_array($fieldProperties) ? $fieldProperties : array( $fieldProperties ) );
-        if(isset($fieldProperties['value'])){
+        if( isset( $fieldProperties['value'] ) ) {
             $baseAttributes['value'] = $fieldProperties['value'];
         }
-        $attString       = self::arrayToHTMLAttributes(array_merge($baseAttributes, $attributes));
+        $attString = self::arrayToHTMLAttributes(array_merge($baseAttributes, $attributes));
 
-        $field             = new \stdClass();
-        $field->html       = "<input {$attString} />";
-        $field->properties = array_merge($baseAttributes, $attributes, $fieldProperties);
+        $field                         = new \stdClass();
+        $field->html                   = "<input {$attString} />";
+        $field->properties             = array_merge($baseAttributes, $attributes, $fieldProperties);
 
         return $field;
     }
@@ -93,7 +93,7 @@ class HTMLFieldParser
         }
 
         $fieldProperties   = empty( $fieldProperties ) ? array() : ( is_array($fieldProperties) ? $fieldProperties : array( $fieldProperties ) );
-        $baseAttributes    = array( 'id' => $name, 'name' => $name );
+        $baseAttributes    = array( 'ID' => $name, 'name' => $name );
         $source            = '';
         $hasSelectedOption = false;
 
@@ -135,7 +135,7 @@ class HTMLFieldParser
     {
         $controlID       = empty( $ID ) ? $name : $ID;
         $fieldProperties = empty( $fieldProperties ) ? array() : ( is_array($fieldProperties) ? $fieldProperties : array( $fieldProperties ) );
-        $baseAttributes  = array( 'name' => $name, 'id' => $controlID );
+        $baseAttributes  = array( 'name' => $name, 'ID' => $controlID );
         $attsString      = self::arrayToHTMLAttributes(array_merge($baseAttributes, $attributes));
 
         $field             = new \stdClass();
