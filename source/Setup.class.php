@@ -31,7 +31,7 @@ class Setup
 
     public function registerCustomStatus()
     {
-        
+
         $options = new SettingsPage();
         $customStatusList = $options->getOptionValue('custom-status-list');
         $list = explode(',', $customStatusList);
@@ -44,7 +44,7 @@ class Setup
                 'exclude_from_search'       => true,
                 'show_in_admin_all_list'    => true,
                 'show_in_admin_status_list' => true,
-                'label_count'               => "{$status} <span class=\"count\">(%s)</span>",
+                'label_count'               => _n_noop( "{$status} <span class=\"count\">(%s)</span>", "{$status} <span class=\"count\">(%s)</span>" ),
             ));
 
         }

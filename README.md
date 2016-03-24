@@ -35,6 +35,10 @@ This project is coded and maintained by **Page Carbajal**, a [Software Engineer]
 
 ##Change Log
 
+###Version 1.0.2 - Fixed Noop Translation Error
+
+- Fixed Noop Translation Error
+
 ###Version 1.0.1 - WPExpress upgrade
 
 - Upgraded to WPExpress 1.3.0
