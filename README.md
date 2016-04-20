@@ -33,22 +33,22 @@ This is an open source project under the GPL license commissioned by **Octopus**
 
 This project is coded and maintained by **Page Carbajal**, a [Software Engineer](http://pagecarbajal.com) who loves **WordPress** very dearly and is the father figure of **WPExpress**, A [WordPress Framework for Developers](http://pagecarbajal.com//wordpress-framework)
 
-##Change Log
+#Change Log
 
-###Version 1.1.0 - Release Candidate 1
+##Version 1.1.0 - Release Candidate 1
  
 - Tested with WordPress 4.5
 - All posts are non public 
 
-###Version 1.0.2 - Fixed Noop Translation Error
+##Version 1.0.2 - Fixed Noop Translation Error
 
 - Fixed Noop Translation Error
 
-###Version 1.0.1 - WPExpress upgrade
+##Version 1.0.1 - WPExpress upgrade
 
 - Upgraded to WPExpress 1.3.0
 
-###Version 1.0.0 - Our First Custom Post Status
+##Version 1.0.0 - Our First Custom Post Status
 
 - Enhanced JS to set the current post status 
 - Implemented Custom Status List
