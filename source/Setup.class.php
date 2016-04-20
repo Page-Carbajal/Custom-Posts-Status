@@ -40,11 +40,16 @@ class Setup
             $sanitizedStatus = sanitize_title($status);
             register_post_status($sanitizedStatus, array(
                 'label'                     => _x($status, 'post'),
-                'public'                    => true,
+                'public'                    => null,
                 'exclude_from_search'       => true,
                 'show_in_admin_all_list'    => true,
                 'show_in_admin_status_list' => true,
-                'label_count'               => _n_noop( "{$status} <span class=\"count\">(%s)</span>", "{$status} <span class=\"count\">(%s)</span>" ),
+                '_builtin'                  => null,
+                'internal'                  => null,
+                'protected'                 => null,
+                'private'                   => true,
+                'publicly_queryable'        => null,
+                'label_count'               => _n_noop("{$status} <span class=\"count\">(%s)</span>", "{$status} <span class=\"count\">(%s)</span>"),
             ));
 
         }
