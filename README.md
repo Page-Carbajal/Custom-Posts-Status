@@ -35,6 +35,11 @@ This project is coded and maintained by **Page Carbajal**, a [Software Engineer]
 
 ##Change Log
 
+###Version 1.1.0 - Release Candidate 1
+ 
+- Tested with WordPress 4.5
+- All posts are non public 
+
 ###Version 1.0.2 - Fixed Noop Translation Error
 
 - Fixed Noop Translation Error
