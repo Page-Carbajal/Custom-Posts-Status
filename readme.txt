@@ -17,10 +17,9 @@ This project helps you implement your own Custom Status in the **Post Submit Box
 
 Implements register_post_status and a little jQuery function to render the status on the admin screen.
 
-This plugin is Open Source software. It was built with <3 in Cancun by **Page Carbajal / ** [Software Engineer](http://pagecarbajal.com).
+This plugin is Open Source software. It was built with <3 in Cancun by **Page Carbajal**  /  [Software Engineer](http://pagecarbajal.com).
 
 Requested and sponsored by Octopus / [Agencia de Marketing Digital](http://octopus.mx).
-
 
 At this time, all post status are private.
 
