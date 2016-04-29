@@ -1,4 +1,6 @@
+.svn
 .idea
+assets/
 composer.lock
 vendor/mustache/mustache/test
 vendor/twig/twig/doc
