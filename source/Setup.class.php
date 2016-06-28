@@ -34,6 +34,11 @@ class Setup
 
         $options = new SettingsPage();
         $customStatusList = $options->getOptionValue('custom-status-list');
+
+		if ( empty( $customStatusList ) ) {
+			return;
+		}
+
         $list = explode(',', $customStatusList);
 
         foreach($list as $status){
