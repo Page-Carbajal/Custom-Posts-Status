@@ -26,6 +26,8 @@ class Setup
         add_filter('init', array( $this, 'registerPluginTextDomain' ));
         // Register Custom Status
         add_filter('init', array( $this, 'registerCustomStatus' ));
+        add_filter( 'display_post_states', array( $this, 'display_status_label'));
+        add_action('admin_footer-edit.php',array( $this, 'status_into_inline_edit'));
         return $this;
     }
 
@@ -55,6 +57,44 @@ class Setup
         }
 
     }
+    
+    public function display_status_label( $statuses ) 
+    {
+	    global $post; 
+	
+	    $options = new SettingsPage();
+        $customStatusList = $options->getOptionValue('custom-status-list');
+        $list = explode(',', $customStatusList);
+
+     foreach($list as $status){
+            $sanitizedStatus = sanitize_title($status);
+	    if ( get_query_var( 'post_status' ) != $sanitizedStatus ){ 
+	  	  if( $post->post_status == $sanitizedStatus ){ 
+			    return array($status);
+		   }
+	    }
+	 }
+  	    return $statuses;
+
+    }
+
+   public function status_into_inline_edit() 
+   {
+   
+        $options = new SettingsPage();
+        $customStatusList = $options->getOptionValue('custom-status-list');
+        $list = explode(',', $customStatusList);
+   
+	 echo "<script>jQuery(document).ready( function() {";
+	    
+	    foreach($list as $status){
+            $sanitizedStatus = sanitize_title($status);
+	          echo "jQuery( 'select[name=\"_status\"]' ).append( '<option value=\"" . $sanitizedStatus . "\">" . $status . "</option>' );";
+	    }
+	    
+	 echo "}); </script>";
+   }
+
 
     public function registerPluginTextDomain()
     {
